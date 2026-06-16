@@ -1,0 +1,22 @@
+*.sqlite*
+
+
+use App\Models\Book;
+$anoMaisRecente = Book::max('published_year');
+
+use App\Models\Category;
+$category = Category::create([
+    'name' => 'Fiction'
+]);
+
+$book = Book::create([
+    'title' => 'The Great Adventure',
+    'author_id' => $author->id,
+    'category_id' => $category->id,
+    'publisher_id' => $publisher->id,
+    'published_year' => 2024,
+    'pages' => 300 
+]);
+
+
+
