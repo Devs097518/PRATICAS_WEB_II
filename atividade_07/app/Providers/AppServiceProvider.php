@@ -20,4 +20,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
     }
 
+    protected $policies = [
+        User::class => UserPolicy::class,
+    ];
+
 }

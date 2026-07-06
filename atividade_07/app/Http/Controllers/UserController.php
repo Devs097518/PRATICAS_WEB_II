@@ -29,5 +29,19 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuário atualizado com sucesso.');
     }
 
+
+    public function updateRole(Request $request, User $user)
+    {
+        $this->authorize('updateRole', $user);
+
+        $validated = $request->validate([
+            'role' => 'required|in:admin,bibliotecario,cliente',
+        ]);
+
+        $user->update(['role' => $validated['role']]);
+
+        return back()->with('success', 'Papel do usuário atualizado com sucesso!');
+    }
+
 }
 

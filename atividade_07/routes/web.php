@@ -43,3 +43,8 @@ Route::get('/users/{user}/borrowings', [BorrowingController::class, 'userBorrowi
 
 // Rota para registrar a devolução
 Route::patch('/borrowings/{borrowing}/return', [BorrowingController::class, 'returnBook'])->name('borrowings.return');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
+});

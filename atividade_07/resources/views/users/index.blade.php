@@ -1,39 +1,38 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <h1 class="my-4">Lista de Usuários</h1>
-
-    <table class="table table-striped">
-        <thead>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Papel</th>
+            @can('updateRole', $users->first() ?? new App\Models\User())
+                <th>Ação</th>
+            @endcan
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($users as $user)
             <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Email</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->role }}</td>
+                @can('updateRole', $user)
                     <td>
-                        <a href="{{ route('users.show', $user) }}" class="btn btn-info btn-sm">
-                            <i class="bi bi-eye"></i> Visualizar
-                        </a>
-                        <a href="{{ route('users.edit', $user) }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-pencil"></i> Editar
-                        </a>
+                        <form action="{{ route('users.updateRole', $user) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <select name="role" onchange="this.form.submit()">
+                                <option value="admin" @selected($user->role === 'admin')>Admin</option>
+                                <option value="bibliotecario" @selected($user->role === 'bibliotecario')>Bibliotecário</option>
+                                <option value="client" @selected($user->role === 'client')>Cliente</option>
+                            </select>
+                        </form>
                     </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endcan
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
-    <div class="d-flex justify-content-center">
-        {{ $users->links() }}
-    </div>
-</div>
-@endsection
+@if (session('success'))
+    <p>{{ session('success') }}</p>
+@endif
