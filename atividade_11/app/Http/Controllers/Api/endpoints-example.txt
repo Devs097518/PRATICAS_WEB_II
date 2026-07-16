@@ -1,0 +1,62 @@
+==================================================
+API REST - BOOKS - ENDPOINTS PARA TESTE 
+==================================================
+
+BASE URL: http://localhost:8000/api/books
+
+--------------------------------------------------
+1. LISTAR TODOS OS LIVROS
+--------------------------------------------------
+Método: GET
+URL: /api/books
+Body: nenhum
+Resposta esperada: 200 OK (lista de livros em JSON)
+
+--------------------------------------------------
+2. MOSTRAR UM LIVRO ESPECÍFICO
+--------------------------------------------------
+Método: GET
+URL: /api/books/1
+Body: nenhum
+Resposta esperada: 200 OK (dados do livro em JSON)
+Erro esperado (se não existir): 404 Not Found
+
+--------------------------------------------------
+3. CRIAR UM NOVO LIVRO
+--------------------------------------------------
+Método: POST
+URL: /api/books
+Body (x-www-form-urlencoded):
+    title           = Dom Casmurro
+    author_id       = 1
+    category_id     = 1
+    publisher_id    = 1
+    published_year  = 1899
+    pages           = 256
+    cover_image     = (opcional)
+Resposta esperada: 201 Created (livro criado em JSON)
+
+--------------------------------------------------
+4. ATUALIZAR UM LIVRO EXISTENTE
+--------------------------------------------------
+Método: POST
+URL: /api/books/1
+Body (x-www-form-urlencoded):
+    _method         = PUT
+    title           = Dom Casmurro - Edição Revisada
+    pages           = 260
+Observação: usar _method=PUT junto com POST, pois o Postman
+não envia x-www-form-urlencoded corretamente em requisições
+PUT puras (method spoofing do Laravel).
+Resposta esperada: 200 OK (livro atualizado em JSON)
+
+--------------------------------------------------
+5. REMOVER UM LIVRO
+--------------------------------------------------
+Método: DELETE
+URL: /api/books/1
+Body: nenhum
+Resposta esperada: 200 OK
+    { "message": "Livro removido com sucesso." }
+Erro esperado (se não existir): 404 Not Found
+
